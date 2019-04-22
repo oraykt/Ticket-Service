@@ -136,7 +136,9 @@ describe('Book Ticket on Test Event', () => {
         res.body.bookedTicket.should.have.property('totalTickets')
         res.body.bookedTicket.totalTickets.should.be.eql(test_totalTickets)
         res.body.bookedTicket.should.have.property('ticketPrice')
-        // TODO Available Tickets!
+        res.body.should.have.property('currency')
+        res.body.should.have.property('price')
+        res.body.price.should.be.eql(res.body.bookedTicket.ticketPrice * test_ticketAmount)
         done()
       })
   })

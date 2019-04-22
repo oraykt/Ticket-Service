@@ -72,9 +72,11 @@ router.get('/getEventDetail', (req, res) => {
 
 router.put('/bookTicket', (req, res) => {
   ticketService.bookTicket(req.body)
-    .then((bookedTicket) => {
+    .then(({ price, currency, bookedTicket }) => {
       res.json({
         bookTicketAction: true,
+        price,
+        currency,
         bookedTicket
       })
     })

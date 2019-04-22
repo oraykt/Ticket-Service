@@ -161,7 +161,7 @@
       "properties": {
         "eventName": {
           "type": "string",
-          "example" : "Test Event Name"
+          "example": "Test Event Name"
         },
         "eventDate": {
           "type": "string",
@@ -285,6 +285,12 @@
       "properties": {
         "bookTicketAction": {
           "type": "boolean"
+        },
+        "price": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
         },
         "bookedTicket": {
           "type": "object",

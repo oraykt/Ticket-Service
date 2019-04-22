@@ -70,10 +70,16 @@ const TicketService = {
       if (ticketDetail) {
         try {
           checkAvailableTickets(params.ticketAmount, ticketDetail)
-          return paymentGateway.charge(params.ticketAmount, 'true').then(async ({ amount, currency }) => {
-            ticketDetail.soldTickets += amount
-            return await Ticket.findByIdAndUpdate(params.ticketId, ticketDetail, { new: true })
-          })
+          return paymentGateway.charge(params.ticketAmount * ticketDetail.ticketPrice, 'true')
+            .then(async ({ amount, currency }) => {
+              ticketDetail.soldTickets += params.ticketAmount
+              return await Ticket.findByIdAndUpdate(params.ticketId, ticketDetail, { new: true })
+                .then(async (bookedTicket) => {
+                  return await { price: amount, currency, bookedTicket }
+                })
+            }).catch((error) => {
+              throw error
+            })
         } catch (error) {
           throw error
         }
