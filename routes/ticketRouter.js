@@ -22,7 +22,7 @@ router.get('/getEvents', (req, res) => {
   if (req.query.test) {
     ticketService.getEvents()
       .then((events) => {
-        events = events.filter(event => event._id == req.query.eventId)
+        events = events.filter(event => event._id.toString() === req.query.eventId)
         res.json({
           getEventsAction: true,
           events
