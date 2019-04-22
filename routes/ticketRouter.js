@@ -19,19 +19,36 @@ router.post('/importEvent', (req, res) => {
 })
 
 router.get('/getEvents', (req, res) => {
-  ticketService.getEvents()
-    .then((events) => {
-      res.json({
-        getEventsAction: true,
-        events
+  if (req.query.test) {
+    ticketService.getEvents()
+      .then((events) => {
+        events = events.filter(event => event._id == req.query.eventId)
+        res.json({
+          getEventsAction: true,
+          events
+        })
       })
-    })
-    .catch((error) => {
-      res.json({
-        getEventsAction: false,
-        error
+      .catch((error) => {
+        res.json({
+          getEventsAction: false,
+          error
+        })
       })
-    })
+  } else {
+    ticketService.getEvents()
+      .then((events) => {
+        res.json({
+          getEventsAction: true,
+          events
+        })
+      })
+      .catch((error) => {
+        res.json({
+          getEventsAction: false,
+          error
+        })
+      })
+  }
 })
 
 router.get('/getEventDetail', (req, res) => {
