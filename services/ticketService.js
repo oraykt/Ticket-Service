@@ -22,6 +22,13 @@ const TicketService = {
       .catch((error) => {
         throw error
       })
+  },
+  deleteEvent: async (eventId) => {
+    return await Event.findByIdAndDelete(eventId).then(async (deletedEvent) => {
+      return await Ticket.findByIdAndDelete(deletedEvent.ticketId)
+    }).catch((error) => {
+      throw error
+    })
   }
 }
 

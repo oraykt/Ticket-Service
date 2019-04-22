@@ -3,6 +3,7 @@ const router = express.Router()
 const ticketService = require('../services/ticketService')
 
 router.post('/importEvent', (req, res) => {
+  console.log(req.body)
   ticketService.importEvent(req.body)
     .then((event) => {
       res.json(
@@ -13,6 +14,20 @@ router.post('/importEvent', (req, res) => {
     })
     .catch((error) => {
       res.json({ error })
+    })
+})
+
+router.delete('/deleteEvent', (req, res) => {
+  ticketService.deleteEvent(req.body.eventId)
+    .then(() => {
+      res.json({
+        deletedEvent: true
+      })
+    })
+    .catch(() => {
+      res.json({
+        deletedEvent: false
+      })
     })
 })
 
