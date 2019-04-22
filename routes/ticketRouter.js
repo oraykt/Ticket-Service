@@ -54,13 +54,18 @@ router.get('/getEvents', (req, res) => {
 router.get('/getEventDetail', (req, res) => {
   ticketService.getEventDetail(req.query.eventId)
     .then((eventDetail) => {
-      eventDetail.forEach((event) => {
-        event.tickets.availableTickets = event.tickets.totalTickets - event.tickets.soldTickets
-      })
-      res.json({
-        getDetailAction: true,
-        event: eventDetail
-      })
+      if (eventDetail.length === 0) {
+        // eslint-disable-next-line no-throw-literal
+        throw 'Event not Found!'
+      } else {
+        eventDetail.forEach((event) => {
+          event.tickets.availableTickets = event.tickets.totalTickets - event.tickets.soldTickets
+        })
+        res.json({
+          getDetailAction: true,
+          event: eventDetail
+        })
+      }
     })
     .catch((error) => {
       res.json({
