@@ -15,6 +15,6 @@ const TicketSchema = new Schema({
     type: Number,
     required: [true, 'You must define totalTickets!']
   }
-})
+}, { versionKey: false })
 
 module.exports = mongoose.model('ticket', TicketSchema)

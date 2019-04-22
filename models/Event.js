@@ -18,6 +18,6 @@ const EventSchema = new Schema({
     type: Date,
     default: Date.now
   }
-})
+}, { versionKey: false })
 
 module.exports = mongoose.model('event', EventSchema)
