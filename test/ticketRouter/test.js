@@ -15,15 +15,13 @@ const test_eventName = 'TEST'
 const test_eventDate = '2019-04-22T16:33:50.903Z'
 const test_ticketAmount = 10
 
-describe('Wait MongoDB Connection', () => {
+describe('TEST RUN', () => {
   before((done) => {
+    console.log('Wait MongoDB Connection')
     mongoose.connection.on('open', () => {
       done()
     })
   })
-})
-
-describe('Import an event', () => {
   it('It should return importedEvent', (done) => {
     chai.request(server)
       .post('/api/v1/ticket/importEvent')
@@ -51,9 +49,6 @@ describe('Import an event', () => {
         done()
       })
   })
-})
-
-describe('Get Events', () => {
   it('It should return Events', (done) => {
     chai.request(server)
       .get('/api/v1/ticket/getEvents?test=true&eventId=' + testEventId)
@@ -78,9 +73,6 @@ describe('Get Events', () => {
         done()
       })
   })
-})
-
-describe('Get Event Detail', () => {
   it('It should return an Event Detail', (done) => {
     chai.request(server)
       .get('/api/v1/ticket/getEventDetail?eventId=' + testEventId)
@@ -112,9 +104,6 @@ describe('Get Event Detail', () => {
         done()
       })
   })
-})
-
-describe('Book Ticket on Test Event', () => {
   it('It should return bookedTicketDetails', (done) => {
     chai.request(server)
       .put('/api/v1/ticket/bookTicket')
@@ -142,9 +131,6 @@ describe('Book Ticket on Test Event', () => {
         done()
       })
   })
-})
-
-describe('Delete an Event', () => {
   it('It should return true', (done) => {
     chai.request(server)
       .delete('/api/v1/ticket/deleteEvent')
