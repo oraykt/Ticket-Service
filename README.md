@@ -46,3 +46,22 @@ however you want.
    made certain assumptions how it should work with FE then please let us know.
    TL;DR - you can briefly describe how the whole app would interact.
 2. Tests would be appreciated but are not required.
+
+### The Solution:
+
+- [TicketRouter.js](https://github.com/oraykt/Ticket-Service/blob/master/routes/ticketRouter.js) is Ticket-Service Router
+- [TicketService.js](https://github.com/oraykt/Ticket-Service/blob/master/services/ticketService.js) has the Main Function
+- [Utils](https://github.com/oraykt/Ticket-Service/tree/master/utils) has Logical Controllers
+- [Views](https://github.com/oraykt/Ticket-Service/tree/master/views) The interface haven't implemented yet.
+- [Test.js](https://github.com/oraykt/Ticket-Service/blob/master/test/ticketRouter/test.js) is the tests
+- [Test Logs(Travis-ci)](https://travis-ci.org/oraykt/Ticket-Service)
+
+## Installation
+
+It doesn't have private npm repo currently so we need to clone Ticket-Service from git repo and install it locally via 
+
+```bash
+git clone https://github.com/oraykt/Ticket-Service.git && cd Ticket-Service && npm install && npm start
+```
+
+> http://localhost:3000
