@@ -1,5 +1,3 @@
-
-https://travis-ci.org/oraykt/Ticket-Service.svg?branch=master
 [![Build Status](https://travis-ci.org/oraykt/Ticket-Service.svg?branch=master)](https://travis-ci.org/oraykt/Ticket-Service)
 
 
