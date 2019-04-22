@@ -3,6 +3,7 @@
 const Event = require('../models/Event')
 const Ticket = require('../models/Ticket')
 const paymentGateway = require('./paymentGateway')
+const checkAvailableTickets = require('../utils/availableTickets')
 const convertToObjectId = require('mongoose').Types.ObjectId
 const TicketService = {
   importEvent: async (params) => {
@@ -67,13 +68,14 @@ const TicketService = {
   bookTicket: (params) => {
     return Ticket.findById(params.ticketId).then((ticketDetail) => {
       if (ticketDetail) {
-        if (params.ticketAmount < ticketDetail.totalTickets - ticketDetail.soldTickets) {
+        try {
+          checkAvailableTickets(params.ticketAmount, ticketDetail)
           return paymentGateway.charge(params.ticketAmount, 'true').then(async ({ amount, currency }) => {
             ticketDetail.soldTickets += amount
             return await Ticket.findByIdAndUpdate(params.ticketId, ticketDetail, { new: true })
           })
-        } else {
-          throw 'There are not enough available tickets for you!'
+        } catch (error) {
+          throw error
         }
       } else {
         throw 'ticketId not found!'
