@@ -7,16 +7,12 @@ const EventSchema = new Schema({
     required: true
   },
   date: {
-    type: Date,
+    type: String,
     required: true
   },
   ticketId: {
     type: Schema.Types.ObjectId,
     required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
 }, { versionKey: false })
 

@@ -4,6 +4,7 @@ const Event = require('../models/Event')
 const Ticket = require('../models/Ticket')
 const paymentGateway = require('./paymentGateway')
 const checkAvailableTickets = require('../utils/availableTickets')
+const getDate = require('../utils/getDate')
 const convertToObjectId = require('mongoose').Types.ObjectId
 const TicketService = {
   importEvent: async (params) => {
@@ -17,7 +18,7 @@ const TicketService = {
         return await new Event(
           {
             name: params.eventName,
-            date: params.eventDate,
+            date: getDate(params.eventDate),
             ticketId: ticket._id
           }
         ).save()

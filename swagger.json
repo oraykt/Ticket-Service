@@ -9,7 +9,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "oraykt-ticketservice.herokuapp.com",
+  "host": "localhost:3000",
   "basePath": "/api/v1/ticket",
   "tags": [{
     "name": "Ticket",
@@ -164,11 +164,32 @@
           "example": "Test Event Name"
         },
         "eventDate": {
-          "type": "string",
-          "example": "2019-04-22T16:33:50.903Z"
+          "properties": {
+            "year": {
+              "type": "number",
+              "example": 2019
+            },
+            "month": {
+              "type": "number",
+              "example": 6
+            },
+            "date": {
+              "type": "number",
+              "example": 20
+            },
+            "hours": {
+              "type": "number",
+              "example": 10
+            },
+            "minutes": {
+              "type": "number",
+              "example": 30
+            }
+          }
         },
         "totalTickets": {
-          "type": "number"
+          "type": "number",
+          "example": 30
         }
       }
     },

@@ -12,7 +12,13 @@ let testEventId
 let testTicketId
 const test_totalTickets = 30
 const test_eventName = 'TEST'
-const test_eventDate = '2019-04-22T16:33:50.903Z'
+const test_eventDate = require('../../utils/getDate')({
+  year: 2019,
+  month: 6,
+  date: 25,
+  hours: 15,
+  minutes: 15
+})
 const test_ticketAmount = 10
 
 describe('TEST RUN', () => {
@@ -29,7 +35,13 @@ describe('TEST RUN', () => {
       .send({
         'totalTickets': test_totalTickets,
         'eventName': test_eventName,
-        'eventDate': test_eventDate
+        'eventDate': {
+          year: 2019,
+          month: 6,
+          date: 25,
+          hours: 15,
+          minutes: 15
+        }
       })
       .end((_err, res) => {
         res.should.have.status(200)
