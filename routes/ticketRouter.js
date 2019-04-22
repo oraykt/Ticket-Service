@@ -36,10 +36,13 @@ router.get('/getEvents', (req, res) => {
 
 router.get('/getEventDetail', (req, res) => {
   ticketService.getEventDetail(req.query.eventId)
-    .then((event) => {
+    .then((eventDetail) => {
+      eventDetail.forEach((event) => {
+        event.tickets.availableTickets = event.tickets.totalTickets - event.tickets.soldTickets
+      })
       res.json({
         getDetailAction: true,
-        event: event
+        event: eventDetail
       })
     })
     .catch((error) => {
