@@ -23,6 +23,9 @@ const TicketService = {
         throw error
       })
   },
+  getEvents: async () => {
+    return await Event.find({})
+  },
   deleteEvent: async (eventId) => {
     return await Event.findByIdAndDelete(eventId).then(async (deletedEvent) => {
       return await Ticket.findByIdAndDelete(deletedEvent.ticketId)

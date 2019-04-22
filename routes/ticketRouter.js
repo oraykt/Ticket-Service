@@ -17,6 +17,18 @@ router.post('/importEvent', (req, res) => {
     })
 })
 
+router.get('/getEvents', (req, res) => {
+  ticketService.getEvents().then((events) => {
+    res.json({
+      events: events
+    })
+  }).catch((events) => {
+    res.json({
+      events: events
+    })
+  })
+})
+
 router.delete('/deleteEvent', (req, res) => {
   ticketService.deleteEvent(req.body.eventId)
     .then(() => {
