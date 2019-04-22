@@ -2,6 +2,7 @@
 /* eslint-disable no-return-await */
 const Event = require('../models/Event')
 const Ticket = require('../models/Ticket')
+const paymentGateway = require('./paymentGateway')
 const convertToObjectId = require('mongoose').Types.ObjectId
 const TicketService = {
   importEvent: async (params) => {
@@ -64,11 +65,13 @@ const TicketService = {
     ])
   },
   bookTicket: (params) => {
-    return Ticket.findById(params.ticketId).then(async (ticketDetail) => {
+    return Ticket.findById(params.ticketId).then((ticketDetail) => {
       if (ticketDetail) {
         if (params.ticketAmount < ticketDetail.totalTickets - ticketDetail.soldTickets) {
-          ticketDetail.soldTickets += params.ticketAmount
-          return await Ticket.findByIdAndUpdate(params.ticketId, ticketDetail, { new: true })
+          return paymentGateway.charge(params.ticketAmount, 'true').then(async ({ amount, currency }) => {
+            ticketDetail.soldTickets += amount
+            return await Ticket.findByIdAndUpdate(params.ticketId, ticketDetail, { new: true })
+          })
         } else {
           throw 'There are not enough available tickets for you!'
         }

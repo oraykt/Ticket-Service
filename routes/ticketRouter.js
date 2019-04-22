@@ -62,7 +62,6 @@ router.put('/bookTicket', (req, res) => {
       })
     })
     .catch((error) => {
-      console.log(error)
       res.json({
         bookTicketAction: false,
         error
