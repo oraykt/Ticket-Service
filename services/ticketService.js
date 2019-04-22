@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 /* eslint-disable no-return-await */
 const Event = require('../models/Event')
 const Ticket = require('../models/Ticket')
@@ -62,9 +63,29 @@ const TicketService = {
       }
     ])
   },
-  deleteEvent: async (eventId) => {
-    return await Event.findByIdAndDelete(eventId).then(async (deletedEvent) => {
-      return await Ticket.findByIdAndDelete(deletedEvent.ticketId)
+  bookTicket: (params) => {
+    return Ticket.findById(params.ticketId).then(async (ticketDetail) => {
+      if (ticketDetail) {
+        if (params.ticketAmount < ticketDetail.totalTickets - ticketDetail.soldTickets) {
+          ticketDetail.soldTickets += params.ticketAmount
+          return await Ticket.findByIdAndUpdate(params.ticketId, ticketDetail, { new: true })
+        } else {
+          throw 'There are not enough available tickets for you!'
+        }
+      } else {
+        throw 'ticketId not found!'
+      }
+    }).catch((error) => {
+      throw error
+    })
+  },
+  deleteEvent: (eventId) => {
+    return Event.findByIdAndDelete(eventId).then(async (deletedEvent) => {
+      if (deletedEvent) {
+        return await Ticket.findByIdAndDelete(deletedEvent.ticketId)
+      } else {
+        throw 'eventId not found!'
+      }
     }).catch((error) => {
       throw error
     })

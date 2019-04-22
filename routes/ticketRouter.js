@@ -53,6 +53,23 @@ router.get('/getEventDetail', (req, res) => {
     })
 })
 
+router.put('/bookTicket', (req, res) => {
+  ticketService.bookTicket(req.body)
+    .then((bookedTicket) => {
+      res.json({
+        bookTicketAction: true,
+        bookedTicket
+      })
+    })
+    .catch((error) => {
+      console.log(error)
+      res.json({
+        bookTicketAction: false,
+        error
+      })
+    })
+})
+
 router.delete('/deleteEvent', (req, res) => {
   ticketService.deleteEvent(req.body.eventId)
     .then(() => {
