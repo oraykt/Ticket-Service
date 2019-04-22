@@ -26,7 +26,7 @@ describe('Wait MongoDB Connection', () => {
 describe('Import an event', () => {
   it('It should return importedEvent', (done) => {
     chai.request(server)
-      .post('/api/v1/events/importEvent')
+      .post('/api/v1/ticket/importEvent')
       .set('content-type', 'application/json')
       .send({
         'totalTickets': test_totalTickets,
@@ -56,7 +56,7 @@ describe('Import an event', () => {
 describe('Get Events', () => {
   it('It should return Events', (done) => {
     chai.request(server)
-      .get('/api/v1/events/getEvents?test=true&eventId=' + testEventId)
+      .get('/api/v1/ticket/getEvents?test=true&eventId=' + testEventId)
       .end((_err, res) => {
         res.should.have.status(200)
         res.body.should.an('Object')
@@ -83,7 +83,7 @@ describe('Get Events', () => {
 describe('Get Event Detail', () => {
   it('It should return an Event Detail', (done) => {
     chai.request(server)
-      .get('/api/v1/events/getEventDetail?eventId=' + testEventId)
+      .get('/api/v1/ticket/getEventDetail?eventId=' + testEventId)
       .end((_err, res) => {
         res.should.have.status(200)
         res.body.should.be.an('Object')
@@ -117,7 +117,7 @@ describe('Get Event Detail', () => {
 describe('Book Ticket on Test Event', () => {
   it('It should return bookedTicketDetails', (done) => {
     chai.request(server)
-      .put('/api/v1/events/bookTicket')
+      .put('/api/v1/ticket/bookTicket')
       .set('content-type', 'application/json')
       .send({
         'ticketId': testTicketId,
@@ -145,7 +145,7 @@ describe('Book Ticket on Test Event', () => {
 describe('Delete an Event', () => {
   it('It should return true', (done) => {
     chai.request(server)
-      .delete('/api/v1/events/deleteEvent')
+      .delete('/api/v1/ticket/deleteEvent')
       .set('content-type', 'application/json')
       .send({
         'eventId': testEventId

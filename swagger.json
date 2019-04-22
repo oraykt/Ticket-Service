@@ -1,0 +1,326 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "Ticket-Selling Platform",
+    "description": "It's a demo app",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1/ticket",
+  "tags": [{
+    "name": "Ticket",
+    "description": "Withdraw Service"
+  }],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/getEvents": {
+      "get": {
+        "tags": [
+          "Ticket"
+        ],
+        "description": "Get all events",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/GetEventsResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getEventDetail": {
+      "get": {
+        "tags": [
+          "Ticket"
+        ],
+        "description": "Get an Event Detail",
+        "parameters": [{
+          "in": "query",
+          "name": "eventId",
+          "required": true,
+          "description": "An eventId is already listed"
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/GetEventDetailResponse"
+            }
+          }
+        }
+      }
+    },
+    "/bookTicket": {
+      "put": {
+        "tags": [
+          "Ticket"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [{
+          "in": "body",
+          "name": "Body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/BookTicketRequest"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/GetEventDetailResponse"
+            }
+          }
+        }
+      }
+    },
+    "/importEvent": {
+      "post": {
+        "tags": [
+          "Ticket"
+        ],
+        "description": "Import An Event",
+        "parameters": [{
+          "in": "body",
+          "name": "Body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/ImportEventRequest"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ImportEventResponse"
+            }
+          }
+        }
+      }
+    },
+    "/deleteEvent": {
+      "delete": {
+        "tags": [
+          "Ticket"
+        ],
+        "description": "Delete an event",
+        "parameters": [{
+          "in": "body",
+          "required": true,
+          "name": "eventId",
+          "schema": {
+            "$ref": "#/definitions/DeleteEventRequest"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DeleteEventResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ImportEventRequest": {
+      "required": [
+        "eventName",
+        "eventDate",
+        "totalTickets"
+      ],
+      "properties": {
+        "eventName": {
+          "type": "string",
+          "example" : "Test Event Name"
+        },
+        "eventDate": {
+          "type": "string",
+          "example": "2019-04-22T16:33:50.903Z"
+        },
+        "totalTickets": {
+          "type": "number"
+        }
+      }
+    },
+    "ImportEventResponse": {
+      "properties": {
+        "importEventAction": {
+          "type": "boolean"
+        },
+        "importedEvent": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "ticketId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "GetEventsResponse": {
+      "properties": {
+        "getEventsAction": {
+          "type": "boolean"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "ticketId": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetEventDetailResponse": {
+      "properties": {
+        "getDetailAction": {
+          "type": "boolean"
+        },
+        "event": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "tickets": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  },
+                  "soldTickets": {
+                    "type": "number"
+                  },
+                  "totalTickets": {
+                    "type": "number"
+                  },
+                  "ticketPrice": {
+                    "type": "number"
+                  },
+                  "availableTickets": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "BookTicketRequest": {
+      "required": [
+        "ticketId",
+        "ticketAmount"
+      ],
+      "properties": {
+        "ticketId": {
+          "type": "string"
+        },
+        "ticketAmount": {
+          "type": "number"
+        }
+      }
+    },
+    "BookTicketResponse": {
+      "properties": {
+        "bookTicketAction": {
+          "type": "boolean"
+        },
+        "bookedTicket": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "soldTickets": {
+              "type": "number"
+            },
+            "totalTickets": {
+              "type": "number"
+            },
+            "ticketPrice": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "DeleteEventRequest": {
+      "required": [
+        "eventId"
+      ],
+      "properties": {
+        "eventId": {
+          "type": "string"
+        }
+      }
+    },
+    "DeleteEventResponse": {
+      "properties": {
+        "deleteEventAction": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
