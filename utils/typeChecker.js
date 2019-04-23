@@ -6,13 +6,13 @@ const typeChecker = {
         if (ticketAmount <= totalTickets - soldTickets) {
           return true
         } else {
-          throw 'There are not enough available tickets for you!'
+          throw new Error('There are not enough available tickets for you!')
         }
       } else {
-        throw 'ticketAmount must be Number!'
+        throw new Error('ticketAmount must be Number!')
       }
     } else {
-      throw 'ticketAmount must be defined!'
+      throw new Error('ticketAmount must be defined!')
     }
   },
   ticketAmount: (ticketAmount) => {
@@ -20,10 +20,10 @@ const typeChecker = {
       if (ticketAmount > 0) {
         return true
       } else {
-        throw 'ticketAmount must be above 0!'
+        throw new Error('ticketAmount must be above 0!')
       }
     } else {
-      throw 'ticketAmount must be Number!'
+      throw new Error('ticketAmount must be Number!')
     }
   },
   totalTickets: (totalTickets) => {
@@ -31,10 +31,10 @@ const typeChecker = {
       if (totalTickets > 0) {
         return true
       } else {
-        throw 'totalTickets must be above 0!'
+        throw new Error('totalTickets must be above 0!')
       }
     } else {
-      throw 'totalTickets must be Number!'
+      throw new Error('totalTickets must be Number!')
     }
   }
 

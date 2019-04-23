@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const ticketService = require('../services/ticketService')
-
+const refactorService = require('../services/refactorService')
 router.post('/importEvent', (req, res) => {
   ticketService.importEvent(req.body)
     .then((event) => {
@@ -13,7 +13,7 @@ router.post('/importEvent', (req, res) => {
     .catch((error) => {
       res.json({
         importEventAction: false,
-        error
+        error: error.message
       })
     })
 })
@@ -31,7 +31,7 @@ router.get('/getEvents', (req, res) => {
       .catch((error) => {
         res.json({
           getEventsAction: false,
-          error
+          error: error.message
         })
       })
   } else {
@@ -45,7 +45,7 @@ router.get('/getEvents', (req, res) => {
       .catch((error) => {
         res.json({
           getEventsAction: false,
-          error
+          error: error.message
         })
       })
   }
@@ -76,21 +76,29 @@ router.get('/getEventDetail', (req, res) => {
 })
 
 router.put('/bookTicket', (req, res) => {
-  ticketService.bookTicket(req.body)
-    .then(({ price, currency, bookedTicket }) => {
-      res.json({
-        bookTicketAction: true,
-        price,
-        currency,
-        bookedTicket
-      })
-    })
-    .catch((error) => {
-      res.json({
-        bookTicketAction: false,
-        error
-      })
-    })
+  refactorService.bookTicket(req.body).then((bookingDetail) => {
+    res.json(
+      bookingDetail
+    )
+  }).catch((error) => {
+    console.log(error)
+  })
+
+  // ticketService.bookTicket(req.body)
+  //   .then(({ price, currency, bookedTicket }) => {
+  //     res.json({
+  //       bookTicketAction: true,
+  //       price,
+  //       currency,
+  //       bookedTicket
+  //     })
+  //   })
+  //   .catch((error) => {
+  //     res.json({
+  //       bookTicketAction: false,
+  //       error
+  //     })
+  //   })
 })
 
 router.delete('/deleteEvent', (req, res) => {
