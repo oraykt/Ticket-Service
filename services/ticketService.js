@@ -67,9 +67,9 @@ const TicketService = {
       }
     ])
   },
-  bookTicket: (params) => {
+  bookTicket: async (params) => {
     typeChecker.ticketAmount(params.ticketAmount)
-    return Ticket.findById(params.ticketId).then((ticketDetail) => {
+    return await Ticket.findById(params.ticketId).then((ticketDetail) => {
       if (ticketDetail) {
         try {
           typeChecker.availableTickets(params.ticketAmount, ticketDetail)
