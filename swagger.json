@@ -90,7 +90,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/GetEventDetailResponse"
+              "$ref": "#/definitions/BookTicketResponse"
             }
           }
         }
