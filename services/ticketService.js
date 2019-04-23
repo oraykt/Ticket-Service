@@ -3,11 +3,12 @@
 const Event = require('../models/Event')
 const Ticket = require('../models/Ticket')
 const paymentGateway = require('./paymentGateway')
-const checkAvailableTickets = require('../utils/availableTickets')
+const typeChecker = require('../utils/typeChecker')
 const getDate = require('../utils/getDate')
 const convertToObjectId = require('mongoose').Types.ObjectId
 const TicketService = {
   importEvent: async (params) => {
+    typeChecker.totalTickets(params.totalTickets)
     return await new Ticket(
       {
         totalTickets: params.totalTickets,
@@ -67,10 +68,11 @@ const TicketService = {
     ])
   },
   bookTicket: (params) => {
+    typeChecker.ticketAmount(params.ticketAmount)
     return Ticket.findById(params.ticketId).then((ticketDetail) => {
       if (ticketDetail) {
         try {
-          checkAvailableTickets(params.ticketAmount, ticketDetail)
+          typeChecker.availableTickets(params.ticketAmount, ticketDetail)
           return paymentGateway.charge(params.ticketAmount * ticketDetail.ticketPrice, 'true')
             .then(async ({ amount, currency }) => {
               ticketDetail.soldTickets += params.ticketAmount
