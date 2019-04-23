@@ -13,7 +13,7 @@
   "basePath": "/api/v1/ticket",
   "tags": [{
     "name": "Ticket",
-    "description": "Withdraw Service"
+    "description": "Ticket Service"
   }],
   "schemes": [
     "https",
