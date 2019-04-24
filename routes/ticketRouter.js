@@ -76,29 +76,16 @@ router.get('/getEventDetail', (req, res) => {
 })
 
 router.put('/bookTicket', (req, res) => {
-  refactorService.bookTicket(req.body).then((bookingDetail) => {
+  ticketService.bookTicket(req.body).then((bookingDetail) => {
     res.json(
       bookingDetail
     )
   }).catch((error) => {
-    console.log(error)
+    res.json({
+      bookTicketAction: false,
+      error: error.message
+    })
   })
-
-  // ticketService.bookTicket(req.body)
-  //   .then(({ price, currency, bookedTicket }) => {
-  //     res.json({
-  //       bookTicketAction: true,
-  //       price,
-  //       currency,
-  //       bookedTicket
-  //     })
-  //   })
-  //   .catch((error) => {
-  //     res.json({
-  //       bookTicketAction: false,
-  //       error
-  //     })
-  //   })
 })
 
 router.delete('/deleteEvent', (req, res) => {

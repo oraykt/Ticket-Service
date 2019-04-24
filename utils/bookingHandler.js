@@ -1,4 +1,4 @@
-const BookedTicket = require('../models/BookedTicket')
+const BookedTicket = require('../models/BookingTicket')
 const Ticket = require('../models/Ticket')
 module.exports = (bookingId) => {
   setTimeout(() => {
@@ -8,12 +8,12 @@ module.exports = (bookingId) => {
           Ticket.findById(reservedTicket.ticketId).then((ticket) => {
             ticket.soldTickets -= reservedTicket.ticketAmount
             Ticket.findByIdAndUpdate(ticket._id, ticket).then(() => {
-              console.log('Reservation removed!')
+              console.log(`${reservedTicket._id} removed!`)
             })
           })
         })
       } else {
-        console.log('Reservation confirmed!')
+        console.log(`${bookedTicket._id} confirmed!`)
       }
     }).catch((error) => {
       throw error
