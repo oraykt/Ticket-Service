@@ -11,10 +11,12 @@
   },
   "host": "oraykt-ticketservice.herokuapp.com",
   "basePath": "/api/v1/ticket",
-  "tags": [{
-    "name": "Ticket",
-    "description": "Ticket Service"
-  }],
+  "tags": [
+    {
+      "name": "Ticket",
+      "description": "Ticket Service"
+    }
+  ],
   "schemes": [
     "https",
     "http"
@@ -51,12 +53,14 @@
           "Ticket"
         ],
         "description": "Get an Event Detail",
-        "parameters": [{
-          "in": "query",
-          "name": "eventId",
-          "required": true,
-          "description": "An eventId is already listed"
-        }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "eventId",
+            "required": true,
+            "description": "An eventId is already listed"
+          }
+        ],
         "produces": [
           "application/json"
         ],
@@ -78,19 +82,49 @@
         "consumes": [
           "application/json"
         ],
-        "parameters": [{
-          "in": "body",
-          "name": "Body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/BookTicketRequest"
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BookTicketRequest"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/BookTicketResponse"
+              "$ref": "#/definitions/BookTicketSuccessResponse"
+            }
+          }
+        }
+      }
+    },
+    "/reservedTicket": {
+      "put": {
+        "tags": [
+          "Ticket"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReservedTicketRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ReservedTicketResponse"
             }
           }
         }
@@ -102,14 +136,16 @@
           "Ticket"
         ],
         "description": "Import An Event",
-        "parameters": [{
-          "in": "body",
-          "name": "Body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/ImportEventRequest"
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImportEventRequest"
+            }
           }
-        }],
+        ],
         "produces": [
           "application/json"
         ],
@@ -129,14 +165,16 @@
           "Ticket"
         ],
         "description": "Delete an event",
-        "parameters": [{
-          "in": "body",
-          "required": true,
-          "name": "eventId",
-          "schema": {
-            "$ref": "#/definitions/DeleteEventRequest"
+        "parameters": [
+          {
+            "in": "body",
+            "required": true,
+            "name": "eventId",
+            "schema": {
+              "$ref": "#/definitions/DeleteEventRequest"
+            }
           }
-        }],
+        ],
         "produces": [
           "application/json"
         ],
@@ -299,34 +337,109 @@
         },
         "ticketAmount": {
           "type": "number"
+        },
+        "token": {
+          "type": "string",
+          "description": "token is keyword for payment.charge(). Examplevalues = \\'null', \\'card_error', \\'payment_error'"
         }
       }
     },
-    "BookTicketResponse": {
+    "BookTicketSuccessResponse": {
       "properties": {
         "bookTicketAction": {
           "type": "boolean"
         },
-        "price": {
+        "ticketCost": {
           "type": "number"
         },
         "currency": {
           "type": "string"
         },
-        "bookedTicket": {
+        "bookedTicketDetail": {
+          "type": "object",
+          "properties": {
+            "bookingId": {
+              "type": "string"
+            },
+            "ticketId": {
+              "type": "string"
+            },
+            "ticketAmount": {
+              "type": "number"
+            },
+            "ticketPrice": {
+              "type": "number"
+            },
+            "status": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      }
+    },
+    "BookTicketFailResponse": {
+      "properties": {
+        "bookTicketAction": {
+          "type": "boolean"
+        },
+        "error": {
+          "type": "string"
+        },
+        "bookedTicketDetail": {
+          "type": "object",
+          "properties": {
+            "bookingId": {
+              "type": "string"
+            },
+            "ticketId": {
+              "type": "string"
+            },
+            "ticketAmount": {
+              "type": "number"
+            },
+            "ticketPrice": {
+              "type": "number"
+            },
+            "status": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    },
+    "ReservedTicketRequest": {
+      "properties": {
+        "bookingId": {
+          "type": "string"
+        }
+      }
+    },
+    "ReservedTicketResponse": {
+      "properties": {
+        "bookForReservedTicketAction": {
+          "type": "boolean",
+          "default": true
+        },
+        "bookingDetails": {
           "type": "object",
           "properties": {
             "_id": {
               "type": "string"
             },
-            "soldTickets": {
-              "type": "number"
+            "ticketId": {
+              "type": "string"
             },
-            "totalTickets": {
+            "ticketAmount": {
               "type": "number"
             },
             "ticketPrice": {
               "type": "number"
+            },
+            "status": {
+              "type": "boolean",
+              "default": true
             }
           }
         }
