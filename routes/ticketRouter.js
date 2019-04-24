@@ -4,11 +4,8 @@ const ticketService = require('../services/ticketService')
 const refactorService = require('../services/refactorService')
 router.post('/importEvent', (req, res) => {
   ticketService.importEvent(req.body)
-    .then((event) => {
-      res.json({
-        importEventAction: true,
-        importedEvent: event
-      })
+    .then((importedEventDetail) => {
+      res.json(importedEventDetail)
     })
     .catch((error) => {
       res.json({
@@ -23,10 +20,7 @@ router.get('/getEvents', (req, res) => {
     ticketService.getEvents()
       .then((events) => {
         events = events.filter(event => event._id.toString() === req.query.eventId)
-        res.json({
-          getEventsAction: true,
-          events
-        })
+        res.json(events)
       })
       .catch((error) => {
         res.json({
@@ -37,10 +31,7 @@ router.get('/getEvents', (req, res) => {
   } else {
     ticketService.getEvents()
       .then((events) => {
-        res.json({
-          getEventsAction: true,
-          events
-        })
+        res.json(events)
       })
       .catch((error) => {
         res.json({
@@ -54,23 +45,11 @@ router.get('/getEvents', (req, res) => {
 router.get('/getEventDetail', (req, res) => {
   ticketService.getEventDetail(req.query.eventId)
     .then((eventDetail) => {
-      if (eventDetail.length === 0) {
-        // eslint-disable-next-line no-throw-literal
-        throw 'Event not Found!'
-      } else {
-        eventDetail.forEach((event) => {
-          event.tickets.availableTickets = event.tickets.totalTickets - event.tickets.soldTickets
-        })
-        res.json({
-          getDetailAction: true,
-          event: eventDetail
-        })
-      }
-    })
-    .catch((error) => {
+      res.json(eventDetail)
+    }).catch((error) => {
       res.json({
         getDetailAction: false,
-        error
+        error: error.message
       })
     })
 })
@@ -90,15 +69,13 @@ router.put('/bookTicket', (req, res) => {
 
 router.delete('/deleteEvent', (req, res) => {
   ticketService.deleteEvent(req.body.eventId)
-    .then(() => {
-      res.json({
-        deleteEventAction: true
-      })
+    .then((deleteAction) => {
+      res.json(deleteAction)
     })
     .catch((error) => {
       res.json({
         deleteEventAction: false,
-        error
+        error: error.message
       })
     })
 })

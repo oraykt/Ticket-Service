@@ -26,18 +26,32 @@ const TicketService = {
             date: getDate(params.eventDate),
             ticketId: ticket._id
           }
-        ).save()
+        ).save().then(async (importedEvent) => {
+          return await {
+            importEventAction: true,
+            importedEvent
+          }
+        }).catch((error) => {
+          throw error
+        })
       })
       .catch((error) => {
         throw error
       })
   },
   getEvents: async () => {
-    return await Event.find({})
+    return await Event.find({}).then(async (events) => {
+      return await {
+        getEventsAction: true,
+        events
+      }
+    }).catch((error) => {
+      throw error
+    })
   },
-  getEventDetail: (eventId) => {
+  getEventDetail: async (eventId) => {
     // TODO eventId Validation!
-    return Event.aggregate([
+    return await Event.aggregate([
       {
         $match: {
           _id: convertToObjectId(eventId)
@@ -69,7 +83,21 @@ const TicketService = {
           tickets: '$_id.tickets'
         }
       }
-    ])
+    ]).then(async (eventDetail) => {
+      if (eventDetail.length === 0) {
+        throw new Error('Event not found!')
+      } else {
+        eventDetail.forEach((event) => {
+          event.tickets.availableTickets = event.tickets.totalTickets - event.tickets.soldTickets
+        })
+        return await {
+          getDetailAction: true,
+          event: eventDetail
+        }
+      }
+    }).catch((error) => {
+      throw error
+    })
   },
   bookTicket: async (params) => {
     // TODO ticketAmount + availableTickets(ticketAmount)
@@ -138,9 +166,15 @@ const TicketService = {
   deleteEvent: (eventId) => {
     return Event.findByIdAndDelete(eventId).then(async (deletedEvent) => {
       if (deletedEvent) {
-        return await Ticket.findByIdAndDelete(deletedEvent.ticketId)
+        return await Ticket.findByIdAndDelete(deletedEvent.ticketId).then(async () => {
+          return await {
+            deleteEventAction: true
+          }
+        }).catch((error) => {
+          throw error
+        })
       } else {
-        throw 'eventId not found!'
+        throw new Error('eventId not found!')
       }
     }).catch((error) => {
       throw error
