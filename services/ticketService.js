@@ -163,6 +163,28 @@ const TicketService = {
       throw error
     })
   },
+  bookForReservedTicket: async (params) => {
+    return await BookingTicket.findById(params.bookingId).then(async (bookedTicketDetail) => {
+      if (bookedTicketDetail) {
+        if (!bookedTicketDetail.status) {
+          bookedTicketDetail.status = true
+          return await BookingTicket.findByIdAndUpdate(bookedTicketDetail._id, bookedTicketDetail, { new: true })
+            .then(async (updatedBookedTicket) => {
+              return await {
+                bookForReservedTicketAction: true,
+                bookingDetails: updatedBookedTicket
+              }
+            }).catch((error) => {
+              throw error
+            })
+        } else {
+          throw new Error('The ticket Id which has booking Id already paid.')
+        }
+      } else {
+        throw new Error('bookingId not found!')
+      }
+    })
+  },
   deleteEvent: (eventId) => {
     return Event.findByIdAndDelete(eventId).then(async (deletedEvent) => {
       if (deletedEvent) {
