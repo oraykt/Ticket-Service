@@ -12,7 +12,7 @@ const BookingTicketSchema = new Schema({
   },
   ticketPrice: {
     type: Number,
-    required: [true, 'You must define ticketPrice!']
+    required: true
   },
   status: {
     type: Boolean,
