@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const ticketService = require('../services/ticketService')
-const refactorService = require('../services/refactorService')
 router.post('/importEvent', (req, res) => {
   ticketService.importEvent(req.body)
     .then((importedEventDetail) => {
@@ -18,9 +17,9 @@ router.post('/importEvent', (req, res) => {
 router.get('/getEvents', (req, res) => {
   if (req.query.test) {
     ticketService.getEvents()
-      .then((events) => {
-        events = events.filter(event => event._id.toString() === req.query.eventId)
-        res.json(events)
+      .then((getEventsDetail) => {
+        getEventsDetail.events = getEventsDetail.events.filter(event => event._id.toString() === req.query.eventId)
+        res.json(getEventsDetail)
       })
       .catch((error) => {
         res.json({

@@ -18,5 +18,5 @@ module.exports = (bookingId) => {
     }).catch((error) => {
       throw error
     })
-  }, 1000 * 60 * 15)
+  }, 1000 * 60 * 10)
 }
